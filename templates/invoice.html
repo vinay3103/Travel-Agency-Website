@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Booking Invoice</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Booking Invoice</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Package: {{ package.name }}</h5>
+                <p><strong>Customer Name:</strong> {{ booking.customer_name }}</p>
+                <p><strong>Customer Email:</strong> {{ booking.customer_email }}</p>
+                <p><strong>Booking Start Date:</strong> {{ booking.start_date }}</p>
+                <p><strong>Booking End Date:</strong> {{ booking.end_date }}</p>
+                <p><strong>Total Price:</strong> ${{ booking.total_price }}</p>
+
+            </div>
+        </div>
+        <a href="/" class="btn btn-primary mt-3">Back to Home</a>
+    </div>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+</body>
+</html>

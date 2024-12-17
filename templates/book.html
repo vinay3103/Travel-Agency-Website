@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Book Package</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Book Package: {{ package.name }}</h1>
+        <form method="POST" onsubmit="return validateBookingForm()">
+            <input type="text" name="customer_name" placeholder="Your Name" required>
+            <input type="email" name="customer_email" placeholder="Your Email" required>
+            <input type="text" name="phone_number" placeholder="Phone Number" required>
+            <input type="number" id="travelers" name="travelers" placeholder="Number of Travelers" required>
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" min="{{ package.start_date }}" max="{{ package.end_date }}" required>
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" min="{{ package.start_date }}" max="{{ package.end_date }}" required>
+            <button type="submit" class="btn btn-primary mt-2">Book Package</button>
+            <a href="/" class="btn btn-primary mt-3">Back to Home</a>
+
+        </form>
+    </div>
+
+    <!-- Pass availability to JavaScript -->
+    <script>
+        const availability = {{ package.availability }};
+
+        function validateBookingForm() {
+            const travelersInput = document.getElementById("travelers");
+            const travelers = parseInt(travelersInput.value, 10);
+
+            if (travelers <= 0) {
+                alert("Please enter a valid number of travelers.");
+                return false;
+            }
+
+            if (travelers > availability) {
+                alert(`Sorry for the inconvience . At present slots are full.`);
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Admin Panel</h2>
+        <h3>Manage Packages</h3>
+        <a href="{{ url_for('view_bookings') }}">View Bookings</a>
+        <form method="POST">
+            <input type="text" name="name" placeholder="Package Name" required>
+            <textarea name="description" placeholder="Description" required></textarea>
+            <input type="number" step="0.01" name="price" placeholder="Price" required>
+            <input type="date" name="start_date" placeholder="Start Date" required>
+            <input type="date" name="end_date" placeholder="End Date" required>
+            <input type="url" name="image_url" placeholder="Image URL" required>
+            <input type="number" name="availability" placeholder="Availability" required>
+            <button type="submit">Add Package</button>
+        </form>
+        
+        <h2>Packages</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for package in packages %}
+                    <tr>
+                        <td>{{ package.name }}</td>
+                        <td>{{ package.description }}</td>
+                        <td>${{ package.price }}</td>
+                        <td>{{ package.start_date }}</td> <!-- Display start_date -->
+                        <td>{{ package.end_date }}</td> <!-- Display end_date -->
+                        <td>{{ package.availability }}</td>
+                        <td>
+                            <a href="{{ url_for('update_package', package_id=package._id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ url_for('delete_package', package_id=package._id) }}" method="POST" style="display:inline;">
+                              <button type="submit" class="btn btn-danger" onclick="return confirmDeletion()">
+                                  Delete
+                              </button>
+                          </form>                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

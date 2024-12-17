@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Agency</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Welcome to Travel Agency</h1>
+  </header>
+  <div class="container">
+    {% for package in packages %}
+    <div class="package" data-availability="{{ package.availability }}">
+      <h3>{{ package.name }}</h3>
+      <img src="{{ package.image_url }}" alt="{{ package.name }}">
+      <p>{{ package.description }}</p>
+      <p>Price: ${{ package.price }}</p>
+      <p>Available Dates: {{ package.start_date }} to {{ package.end_date }}</p>
+      <a href="{{ url_for('book', package_id=package._id) }}" class="btn btn-primary">Book Now</a>
+    </div>
+    {% endfor %}
+  </div>
+  <script>
+    function refreshPackages() {
+        $.get("/index", function(response) {
+            var packagesContainer = $(".container");
+            packagesContainer.empty();
+            response.packages.forEach(function(package) {
+                packagesContainer.append(`
+                    <div class="package">
+                        <h3>${package.name}</h3>
+                        <img src="${package.image_url}" alt="${package.name}">
+                        <p>${package.description}</p>
+                        <p>Price: $${package.price}</p>
+                        <p>Available Dates: ${package.start_date} to ${package.end_date}</p>
+                        <a href="/book/${package._id}" class="btn btn-primary">Book Now</a>
+                    </div>
+                `);
+            });
+        });
+    }
+</script>
+
+</body>
+</html>
